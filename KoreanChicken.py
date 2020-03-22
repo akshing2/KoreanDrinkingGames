@@ -18,7 +18,14 @@ def GetListOfNames():
 
 # Test Functions #################################################################################
 def TestFlickTheCap(ListOfNames):
-    FlickTheCap.FlickTheCap(ListOfNames)
+    quit = False
+    while not(quit):
+        FlickTheCap.FlickTheCap(ListOfNames)
+        print("Another Game (y/n)?")
+        ch = input()
+        if ch is "n":
+            quit = True
+    
 
 # Main Function ###################################################################################
 LoN = GetListOfNames()

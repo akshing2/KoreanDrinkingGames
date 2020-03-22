@@ -3,30 +3,33 @@
 # Import Files
 import random
 import time
+import numpy as np
 
 # Auxiliary Functions #################################################################
 
 # Generate strength of bottle cap
 def BottleCapStrength():
-    min = 400
-    max = 700
-    random.seed(1)
-    bc_stren = random.randint(min, max)
+    min = 1
+    max = 25
+
+    seed_val = random.randint(1, 1000)
+    np.random.seed(seed_val)
+    bc_stren = np.random.uniform(min, max)
 
     return abs(bc_stren)
 
 
 # Generate strength of flick
 def FlickStrength():
-    min = 300
+    min = 0
     max = 400
     min_flick = 0.1
-    max_flick = 0.2
+    max_flick = 0.9
 
-    random.seed(1)
-    val = random.random()
-    flick_multi = min_flick + (val*(max_flick - min_flick))
-    flick_stren = flick_multi*random.randint(min, max)
+    seed_val = int(np.random.uniform(1, 100))
+    np.random.seed(seed_val)
+    flick_multi = np.random.uniform(min_flick, max_flick)
+    flick_stren = flick_multi*np.random.uniform(min, max)
 
     return abs(flick_stren)
 
@@ -35,21 +38,20 @@ def DrawBottleCap(bc_stren, num_flicks, lean_left):
     ll = lean_left
 
     height  = 5
-    num_tab = 7
-    char_per_tab = 3
+    num_tab = 3
+    char_per_tab = 8
     num_char = char_per_tab*num_tab
-    width = 2*num_char + num_tab
+    width = 2 + num_tab*num_char
     if bc_stren >= 0:
         # draw the tail bit
-        for i in range(0, num_tab):
-            print(width*" " + i*" "*ll + (num_tab-i)*" "*(not(ll)) + "*")
-
+        for i in range(0, height):
+            print((width-i)*" "*ll + i*" "*(not(ll)) + "*")
 
     # draw bottle cap with no tail. ie Game End
-    for i in range(1, height):
+    for i in range(0, height):
         print("|" + num_tab*"\t" + "|")
     
-    print("|" + num_char*"_" + "|")
+    print("|" + (num_char-1)*"_" + "|")
     print("Number of Flicks = " + str(num_flicks))
     
     # switch lean left
@@ -63,7 +65,7 @@ def FlickTheCap(ListOfNames):
     max_players = len(ListOfNames)
     player = 0
     winner = "UNKOWN ERROR"
-    wait_time = 0.75
+    wait_time = 0.65
     # Get the bottle cap strength
     bc_strength = BottleCapStrength()
 
@@ -72,7 +74,10 @@ def FlickTheCap(ListOfNames):
 
     # lean of the bottle cap
     lean_left = True
-
+    print()
+    print()
+    print("########## FLICK THE BOTTLE CAP ##########")
+    print()
     # main game loop
     while game_fin == False:
         # get player to play
@@ -85,9 +90,12 @@ def FlickTheCap(ListOfNames):
             time.sleep(wait_time)
             print("...")
         
+        # Extra lines to separate drawing
+        print()
+        print()
         # get flick strength
         flick_strength = FlickStrength()
-        bc_strength = bc_strength - flick_strength
+        bc_strength = bc_strength - 1   # working with random number of flicks
         num_flicks = num_flicks + 1
         # draw bottle cap state
         lean_left = DrawBottleCap(bc_stren=bc_strength, num_flicks=num_flicks, lean_left=lean_left)
