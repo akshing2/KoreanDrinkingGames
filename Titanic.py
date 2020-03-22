@@ -40,6 +40,8 @@ def FillCupOnce(cup):
 	i = 0
 	filled = False
 	while not filled:
+		if i == 16:
+			return cup
 		if cup[sliceNum-i].count('#') < 10:
 			while not filled:
 				randIndex = randint(4,13)
@@ -66,10 +68,6 @@ def FillNPrintCup(cup, amount, rate):
 def Titanic(ListOfNames):
 	data_expon = expon.rvs(scale=1,loc=0,size=10000)
 
-	cup = MakeCup()
-
-	cup = FillNPrintCup(cup, 75, 0.02)
-
 	data = []
 	i = 0
 	while i < 10.001:
@@ -85,9 +83,14 @@ def Titanic(ListOfNames):
 	min = 100
 	max = 150
 	tipped = False
+	roundNum = 0
+
+	cup = MakeCup()
+	cup = FillNPrintCup(cup, total, 0.02)
 
 	while not tipped:
-		inputChoice = int(input("\n Please select a pouring option...\n1. Small Pour\n2. Medium Pour\n3. Heavy Pour\nChoice (1,2,3): "))
+		print("\n" + ListOfNames[roundNum % len(ListOfNames)], end='')
+		inputChoice = int(input(" please select a pouring option...\n1. Small Pour\n2. Medium Pour\n3. Heavy Pour\nChoice (1,2,3): "))
 		print()
 		# logic for strength of pour 
 		if inputChoice == 1:
@@ -119,7 +122,13 @@ def Titanic(ListOfNames):
 		# From chance percentage determine if cup tips
 		x = randint(1, 100)
 		if x <= Chance:
-		  print("TIP!")
-		  tipped = True
+		  	print("\n\n" + ListOfNames[roundNum % len(ListOfNames)].upper() + " LOST!!!")
+		  	tipped = True
+		  	return roundNum % len(ListOfNames)
 
-Titanic([])
+		# Pour more
+		print("\n" + ListOfNames[roundNum % len(ListOfNames)], end='')
+		inputChoice = input(" would you like to pour some more?\nYes or No (Y/N): ")
+		if inputChoice != "Y":
+			# Increment Round
+			roundNum = roundNum + 1
