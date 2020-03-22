@@ -32,7 +32,7 @@ def PrintCup(cup):
 	os.system('clear')
 	print('\n\n\n')
 	for cSlice in cup:
-		print(' '.join(cSlice))
+		print('\033[1;33;40m '.join(cSlice))
 
 # Fills the cup with a single drop
 def FillCupOnce(cup):
@@ -89,7 +89,7 @@ def Titanic(ListOfNames):
 	cup = FillNPrintCup(cup, total, 0.02)
 
 	while not tipped:
-		print("\n" + ListOfNames[roundNum % len(ListOfNames)], end='')
+		print("\033[0;37;40m \n" + ListOfNames[roundNum % len(ListOfNames)], end='')
 		inputChoice = int(input(" please select a pouring option...\n1. Small Pour\n2. Medium Pour\n3. Heavy Pour\nChoice (1,2,3): "))
 		print()
 		# logic for strength of pour 
@@ -122,13 +122,15 @@ def Titanic(ListOfNames):
 		# From chance percentage determine if cup tips
 		x = randint(1, 100)
 		if x <= Chance:
-		  	print("\n\n" + ListOfNames[roundNum % len(ListOfNames)].upper() + " LOST!!!")
+		  	print("\033[1;31;40m \n\n" + ListOfNames[roundNum % len(ListOfNames)].upper() + " LOST!!!")
 		  	tipped = True
 		  	return roundNum % len(ListOfNames)
 
 		# Pour more
-		print("\n" + ListOfNames[roundNum % len(ListOfNames)], end='')
+		print("\033[0;37;40m \n" + ListOfNames[roundNum % len(ListOfNames)], end='')
 		inputChoice = input(" would you like to pour some more?\nYes or No (Y/N): ")
 		if inputChoice != "Y":
 			# Increment Round
 			roundNum = roundNum + 1
+
+Titanic(["Sisil"])
