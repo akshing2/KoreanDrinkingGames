@@ -96,7 +96,6 @@ def FlickTheCap(ListOfNames):
     winner = player
     ret = dict()
     ret["WINNER"] = "UNKOWN ERROR"
-    ret["LOSERS"] = []
     wait_time = 0.65
     # Get the bottle cap strength
     bc_strength = BottleCapStrength()
@@ -153,6 +152,8 @@ def FlickTheCap(ListOfNames):
             if loser2 > (max_players - 1):
                 loser2 = 0
 
+            ret["LOSER1"] = loser1
+            ret["LOSER2"] = loser2
             ret["LOSERS"] = [loser1, loser2]
             print(ListOfNames[loser1])
             print(ListOfNames[loser2])
@@ -164,4 +165,4 @@ def FlickTheCap(ListOfNames):
             player = 0
         
 
-    return winner
+    return ret
