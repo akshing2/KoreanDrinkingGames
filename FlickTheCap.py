@@ -22,37 +22,66 @@ def BottleCapStrength():
 # Generate strength of flick
 def FlickStrength():
     min = 0
-    max = 400
-    min_flick = 0.1
-    max_flick = 0.9
+    max = 1
 
     seed_val = int(np.random.uniform(1, 100))
     np.random.seed(seed_val)
-    flick_multi = np.random.uniform(min_flick, max_flick)
-    flick_stren = flick_multi*np.random.uniform(min, max)
+    flick_stren = np.random.uniform(min, max)
 
     return abs(flick_stren)
 
 # Generate graphic of bottle cap
-def DrawBottleCap(bc_stren, num_flicks, lean_left):
+def DrawBottleCap(bc_stren, bc_init, num_flicks, lean_left, flick_success):
     ll = lean_left
 
-    height  = 5
+    height  = 8
     num_tab = 3
     char_per_tab = 8
     num_char = char_per_tab*num_tab
     width = 2 + num_tab*num_char
+
+    # simulating flick miss here
+    if not(flick_success):
+        print("WOOPS, YA MISSED\n")
+        ll = not(ll)
+
     if bc_stren >= 0:
         # draw the tail bit
-        for i in range(0, height):
-            print((width-i)*" "*ll + i*" "*(not(ll)) + "*")
+        # for i in reversed(range(0, height)):
+        #     print((num_char-i)*" "*ll + i*" "*(not(ll)) + "*")
+        # I'm ashamed of what I'm doing here
+        num_del = 5
+        if ll:
+            print("*")
+            print("     *")
+            print("             *")
+            print("                     *")
+            print("                           *")
+        else:
+            print(" " + num_tab*"\t" + "                             *")
+            print(" " + num_tab*"\t" + "                     *")
+            print(" " + num_tab*"\t" + "             *")
+            print(" " + num_tab*"\t" + "     *")
+            print(" " + num_tab*"\t" + "*")
 
     # draw bottle cap with no tail. ie Game End
     for i in range(0, height):
         print("|" + num_tab*"\t" + "|")
     
     print("|" + (num_char-1)*"_" + "|")
-    print("Number of Flicks = " + str(num_flicks))
+    print("\n Number of Flicks = " + str(num_flicks) + "\n")
+
+    # now let them know how much damage has been done
+    low_damage = [0.67, 1.0*bc_init]
+    mod_damage = [0.34*bc_init, 0.66*bc_init]
+    high_damage = [0*bc_init, 0.33*bc_init]
+
+    if low_damage[0] <= bc_stren <= low_damage[1]:
+        print("The cap's barely moved! Surely you can do more damage!\n")
+    elif mod_damage[0] <= bc_stren <= mod_damage[1]:
+        print("Hmmm, the cap is breaking but I think you can put more oomf in it...\n")
+    elif high_damage[0] <= bc_stren <= high_damage[1]:
+        print("You almost got it! Just a few more taps now!\n")
     
     # switch lean left
     ll = not(ll)
@@ -64,11 +93,14 @@ def FlickTheCap(ListOfNames):
     game_fin = False
     max_players = len(ListOfNames)
     player = 0
-    winner = "UNKOWN ERROR"
+    winner = player
+    ret = dict()
+    ret["WINNER"] = "UNKOWN ERROR"
+    ret["LOSERS"] = []
     wait_time = 0.65
     # Get the bottle cap strength
     bc_strength = BottleCapStrength()
-
+    bc_init = bc_strength
     # number of flicks occured
     num_flicks = 0
 
@@ -94,16 +126,36 @@ def FlickTheCap(ListOfNames):
         print()
         print()
         # get flick strength
+        flick_success = False
         flick_strength = FlickStrength()
-        bc_strength = bc_strength - 1   # working with random number of flicks
-        num_flicks = num_flicks + 1
+        if flick_strength >= 0.33:
+            # successfull flick
+            bc_strength = bc_strength - 1
+            flick_success = True
+
+        num_flicks = num_flicks + 1   # working with random number of flicks
+        
         # draw bottle cap state
-        lean_left = DrawBottleCap(bc_stren=bc_strength, num_flicks=num_flicks, lean_left=lean_left)
+        lean_left = DrawBottleCap(bc_stren=bc_strength, bc_init=bc_init, num_flicks=num_flicks, lean_left=lean_left, flick_success=flick_success)
 
         # check for winner
         if bc_strength <= 0:
             print("Congratulations, " + ListOfNames[player] + "!")
-            winner = ListOfNames[player]
+            print("Following player need to DRINK:")
+            winner = player
+            ret["WINNER"] = winner
+            
+            # get losers
+            loser1 = winner - 1
+            if loser1 < 0:
+                loser1 = max_players - 1
+            loser2 = winner + 1
+            if loser2 > (max_players - 1):
+                loser2 = 0
+
+            ret["LOSERS"] = [loser1, loser2]
+            print(ListOfNames[loser1])
+            print(ListOfNames[loser2])
             game_fin = True
 
         # otherwise, go to next player
