@@ -7,6 +7,7 @@
 # Import Files
 import FlickTheCap
 import HigherLower
+import Titanic
 import numpy as np
 
 # Auxiliary Functions ############################################################################
@@ -57,23 +58,38 @@ LoN = GetListOfNames()
 loser_scores =  np.zeros(len(LoN))
 
 while not(quit):
+    winner  = -1
     # print loser scores
     PrintLoserScore(LoN, loser_scores)
+
+    print("Pick a Game (Flick, H/L, Titanic)")
+    game = input()
 
     # flick the cap
-    ret = FlickTheCap.FlickTheCap(LoN)
-    loser_array = [ret["LOSER1"], ret["LOSER2"]]
-    # update loser scores
-    loser_scores = UpdateLoserScores(ret["LOSERS"], loser_scores)
-    # print loser scores
-    PrintLoserScore(LoN, loser_scores)
-    winner = ret["WINNER"]
+    if game is "Flick":
+        ret = FlickTheCap.FlickTheCap(LoN)
+        loser_array = [ret["LOSER1"], ret["LOSER2"]]
+        # update loser scores
+        loser_scores = UpdateLoserScores(ret["LOSERS"], loser_scores)
+        # print loser scores
+        PrintLoserScore(LoN, loser_scores)
+        winner = ret["WINNER"]
 
     # Higher or lower
-    loser = HigherLower.HigherLower(LoN, winner)
-    # update and print
-    loser_scores = UpdateLoserScores(loser, loser_scores)
-    PrintLoserScore(LoN, loser_scores)
+    if game is "H/L":
+        if winner == -1:
+            winner = int(np.random.uniform(0, (len(LoN)-1)))
+        loser = HigherLower.HigherLower(LoN, winner)
+        # update and print
+        loser_scores = UpdateLoserScores(loser, loser_scores)
+        PrintLoserScore(LoN, loser_scores)
+
+    # Titanic
+    if game is "Titanic":   
+        loser = Titanic.Titanic(LoN)
+        # update and print score
+        loser_scores = UpdateLoserScores(loser, loser_scores)
+        PrintLoserScore(LoN, loser_scores)
 
 
 
