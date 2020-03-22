@@ -6,6 +6,7 @@
 
 # Import Files
 import FlickTheCap
+import HigherLower
 import numpy as np
 
 # Auxiliary Functions ############################################################################
@@ -59,13 +60,22 @@ while not(quit):
     # print loser scores
     PrintLoserScore(LoN, loser_scores)
 
+    # flick the cap
     ret = FlickTheCap.FlickTheCap(LoN)
     loser_array = [ret["LOSER1"], ret["LOSER2"]]
     # update loser scores
     loser_scores = UpdateLoserScores(ret["LOSERS"], loser_scores)
-
     # print loser scores
     PrintLoserScore(LoN, loser_scores)
+    winner = ret["WINNER"]
+
+    # Higher or lower
+    loser = HigherLower.HigherLower(LoN, winner)
+    # update and print
+    loser_scores = UpdateLoserScores(loser, loser_scores)
+    PrintLoserScore(LoN, loser_scores)
+
+
 
     print("New Round? (y/n)")
     ch = input()
