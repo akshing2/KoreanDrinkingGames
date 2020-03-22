@@ -64,9 +64,8 @@ while not(quit):
 
     print("Pick a Game (Flick, H/L, Titanic)")
     game = input()
-
     # flick the cap
-    if game is "Flick":
+    if game == "Flick":
         ret = FlickTheCap.FlickTheCap(LoN)
         loser_array = [ret["LOSER1"], ret["LOSER2"]]
         # update loser scores
@@ -76,7 +75,7 @@ while not(quit):
         winner = ret["WINNER"]
 
     # Higher or lower
-    if game is "H/L":
+    if game == "H/L":
         if winner == -1:
             winner = int(np.random.uniform(0, (len(LoN)-1)))
         loser = HigherLower.HigherLower(LoN, winner)
@@ -85,10 +84,10 @@ while not(quit):
         PrintLoserScore(LoN, loser_scores)
 
     # Titanic
-    if game is "Titanic":   
+    if game == "Titanic":   
         loser = Titanic.Titanic(LoN)
         # update and print score
-        loser_scores = UpdateLoserScores(loser, loser_scores)
+        loser_scores = UpdateLoserScores([loser], loser_scores)
         PrintLoserScore(LoN, loser_scores)
 
 

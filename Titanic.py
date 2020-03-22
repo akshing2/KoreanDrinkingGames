@@ -79,7 +79,7 @@ def Titanic(ListOfNames):
 	# anything <= min has 0 chance of tipping
 	# decreasing min increases the effective range of input for tipping
 	currInput = 0
-	total = 75
+	total = randint(70,120)
 	min = 100
 	max = 150
 	tipped = False
@@ -94,13 +94,13 @@ def Titanic(ListOfNames):
 		print()
 		# logic for strength of pour 
 		if inputChoice == 1:
-			currInput = randint(1,2)
+			currInput = randint(1,4)
 			cup = FillNPrintCup(cup, currInput, 2)
 		elif inputChoice == 2:
-			currInput = randint(2,5)
+			currInput = randint(4,10)
 			cup = FillNPrintCup(cup, currInput, 1)
 		elif inputChoice == 3:
-			currInput = randint(5,10)
+			currInput = randint(10,25)
 			cup = FillNPrintCup(cup, currInput, 0.5)
 
 		perc_full = total/max*100
@@ -128,7 +128,7 @@ def Titanic(ListOfNames):
 
 		# Pour more
 		print("\033[0;37;40m \n" + ListOfNames[roundNum % len(ListOfNames)], end='')
-		inputChoice = input(" would you like to pour some more?\nYes or No (Y/N): ")
+		inputChoice = input(" would you like to pour some more?\nYes or No (Y/N): \033[1;31;40m")
 		if inputChoice != "Y":
 			# Increment Round
 			roundNum = roundNum + 1
