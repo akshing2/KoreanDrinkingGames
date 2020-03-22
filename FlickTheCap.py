@@ -34,7 +34,7 @@ def FlickStrength():
 def DrawBottleCap(bc_stren, bc_init, num_flicks, lean_left, flick_success):
     ll = lean_left
 
-    height  = 8
+    height  = 4
     num_tab = 3
     char_per_tab = 8
     num_char = char_per_tab*num_tab
@@ -72,7 +72,7 @@ def DrawBottleCap(bc_stren, bc_init, num_flicks, lean_left, flick_success):
     print("\n Number of Flicks = " + str(num_flicks) + "\n")
 
     # now let them know how much damage has been done
-    low_damage = [0.67, 1.0*bc_init]
+    low_damage = [0.67*bc_init, 1.0*bc_init]
     mod_damage = [0.34*bc_init, 0.66*bc_init]
     high_damage = [0*bc_init, 0.33*bc_init]
 
@@ -141,7 +141,7 @@ def FlickTheCap(ListOfNames):
         # check for winner
         if bc_strength <= 0:
             print("Congratulations, " + ListOfNames[player] + "!")
-            print("Following player need to DRINK:")
+            print("Following players need to DRINK:")
             winner = player
             ret["WINNER"] = winner
             
