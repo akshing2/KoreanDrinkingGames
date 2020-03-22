@@ -17,6 +17,7 @@ def DramaticPause(nDrops):
 		print("...")
 	time.sleep(1)
 
+# Makes the cup Array
 def MakeCup():
 	cupSlice = [' ',' ',' ','||',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','||']
 	cupBase = [' ',' ',' ','||','_','_','_','_','_','_','_','_','_','_','||']
@@ -26,12 +27,14 @@ def MakeCup():
 	cup.append(cupBase)
 	return cup
 
+# Prints the Cup
 def PrintCup(cup):
 	os.system('clear')
 	print('\n\n\n')
 	for cSlice in cup:
 		print(' '.join(cSlice))
 
+# Fills the cup with a single drop
 def FillCupOnce(cup):
 	sliceNum = 15
 	i = 0
@@ -47,6 +50,7 @@ def FillCupOnce(cup):
 			i = i + 1
 	return cup
 
+# Fills the cup with amount drops while printing
 def FillNPrintCup(cup, amount, rate):
 	PrintCup(cup)
 	time.sleep(1)
