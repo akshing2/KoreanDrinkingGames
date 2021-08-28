@@ -11,6 +11,8 @@ import Titanic
 import numpy as np
 
 # Auxiliary Functions ############################################################################
+
+
 def GetListOfNames():
     print("Enter Player Names Here (note, seperate values with commas ','):")
     StrOfNames = input()
@@ -19,46 +21,50 @@ def GetListOfNames():
     print(ListOfNames)
     return ListOfNames
 
+
 def UpdateLoserScores(array_of_loser_id, og_loser_scores):
     loser_scores = og_loser_scores
     for i in range(0, (len(array_of_loser_id))):
         loser_id = array_of_loser_id[i]
         loser_scores[loser_id] = loser_scores[loser_id] + 1
 
-    return loser_scores  
+    return loser_scores
+
 
 def PrintLoserScore(player_names, loser_scores):
-    player_str =    "Names: "
-    score_str =     "Lost:  "
+    player_str = "Names: "
+    score_str = "Lost:  "
 
     for i in range(0, (len(player_names))):
         player_str += player_names[i] + "\t"
         score_str += str(loser_scores[i]) + "\t"
-    
+
     print("\n" + "THE SCORE SO FAR")
     print(player_str)
     print(score_str + "\n")
 
 # Test Functions #################################################################################
+
+
 def TestFlickTheCap(ListOfNames):
     quit = False
     while not(quit):
         FlickTheCap.FlickTheCap(ListOfNames)
         print("Another Game (y/n)?")
         ch = input()
-        if ch is "n":
+        if ch == "n":
             quit = True
-    
+
 
 # Main Function ###################################################################################
 quit = False
 LoN = GetListOfNames()
 
-#initialise loser scoreboard
-loser_scores =  np.zeros(len(LoN))
+# initialise loser scoreboard
+loser_scores = np.zeros(len(LoN))
 
 while not(quit):
-    winner  = -1
+    winner = -1
     # print loser scores
     PrintLoserScore(LoN, loser_scores)
 
@@ -84,16 +90,13 @@ while not(quit):
         PrintLoserScore(LoN, loser_scores)
 
     # Titanic
-    if game == "Titanic":   
+    if game == "Titanic":
         loser = Titanic.Titanic(LoN)
         # update and print score
         loser_scores = UpdateLoserScores([loser], loser_scores)
         PrintLoserScore(LoN, loser_scores)
 
-
-
     print("New Round? (y/n)")
     ch = input()
-    if ch is "n":
+    if ch == "n":
         quit = True
-
